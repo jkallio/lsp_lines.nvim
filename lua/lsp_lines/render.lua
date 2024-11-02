@@ -50,7 +50,7 @@ function M.show(namespace, bufnr, diagnostics, opts, source)
     bufnr = { bufnr, "n" },
     diagnostics = {
       diagnostics,
-      vim.tbl_islist,
+      vim.islist,
       "a list of diagnostics",
     },
     opts = { opts, "t", true },
@@ -188,7 +188,9 @@ function M.show(namespace, bufnr, diagnostics, opts, source)
       end
     end
 
-    vim.api.nvim_buf_set_extmark(bufnr, namespace, lnum, 0, { virt_lines = virt_lines })
+    if lnum <= vim.api.nvim_buf_line_count(bufnr) then
+      vim.api.nvim_buf_set_extmark(bufnr, namespace, lnum, 0, { virt_lines = virt_lines })
+    end
   end
 end
 
